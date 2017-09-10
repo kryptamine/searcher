@@ -7,6 +7,7 @@ use Core\Router\Request;
 use Core\Router\Response;
 use Core\Router\Router;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Core\Exceptions\NotFoundException;
 
 /**
  * Class Application
@@ -91,5 +92,7 @@ class Application
 
             return call_user_func_array([$controller, $method], $route['matches']);
         }
+
+        throw new NotFoundException('Route not found');
     }
 }
