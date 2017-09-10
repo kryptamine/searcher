@@ -31,11 +31,11 @@ class ParseSite extends BaseModel
     public static function fillData(array $data)
     {
         if ($parseSite = self::firstOrCreate(['url' => $data['url']])) {
-            return $parseSite->results()->firstOrCreate(['type' => $data['parse_type']],[
+            return $parseSite->results()->firstOrCreate([
                 'type'    => $data['parse_type'],
                 'count'   => $data['count'],
                 'results' => implode($data['data'], ',')
-            ])->toArray();
+            ], ['type' => $data['parse_type']])->toArray();
         }
 
         return [];

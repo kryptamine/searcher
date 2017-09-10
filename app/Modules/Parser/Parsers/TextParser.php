@@ -9,13 +9,21 @@ namespace App\Modules\Parser\Parsers;
  */
 class TextParser extends BaseParser
 {
-
+    /**
+     * @return $this
+     */
     public function parse()
     {
-        $xPath = new DOMXPath($this->domDocument);
+        $this->data[] = $this->parser->getSearchValue();
 
-        $xPath->query('всемайки');
-
+        return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getCount()
+    {
+        return substr_count(strip_tags($this->parser->getContent()), $this->parser->getSearchValue());
+    }
 }

@@ -13,7 +13,7 @@ class LinkParser extends BaseParser
      */
     public function parse()
     {
-        if (preg_match_all('#<a\s[^>]*href=(\\"??)([^\\" >]*?)\\1[^>]*>(.*)<\/a>#siU',$this->content, $matches)) {
+        if (preg_match_all('#<a\s[^>]*href=(\\"??)([^\\" >]*?)\\1[^>]*>(.*)<\/a>#siU',$this->parser->getContent(), $matches)) {
             $this->data = $matches[2];
         }
 

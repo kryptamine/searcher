@@ -13,7 +13,7 @@ class ImageParser extends BaseParser
      */
     public function parse()
     {
-        if (preg_match_all('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $this->content, $matches)) {
+        if (preg_match_all('/<img[^>]+src="?\'?([^"\']+)"?\'?[^>]*>/i', $this->parser->getContent(), $matches)) {
             $this->data = $matches[1];
         }
 

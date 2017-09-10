@@ -4,41 +4,43 @@ namespace App\Controller;
 
 use App\Models\ParseSite;
 use App\Modules\Parser\Parser;
+use App\Modules\Parser\Parsers\TextParser;
+use App\Requests\SearcherRequest;
 use Core\Router\Request;
 use Core\Router\Response;
-use Valitron\Validator;
 
 /**
  * Class SearcherController
  * @package App\Controller
  */
-class SearcherController
+class SearcherController extends BaseController
 {
-    const VALIDATION_RULES = [
-        'url'        => ['required', 'url'],
-        'parse_type' => ['required', ['in', ['image', 'text', 'link']]]
-    ];
-
     /**
      * @return string|void
      * @throws \Exception
      */
     public function search()
     {
-        $input     = json_decode(Request::rawBody(), true);
-        $validator = new Validator($input);
+        $input = json_decode(Request::rawBody(), true);
 
-        $validator->mapFieldsRules(static::VALIDATION_RULES);
-
-        if (!$validator->validate()) {
-            return Response::error($validator->errors(), 422);
+        if (!$this->validate($input, SearcherRequest::class)) {
+            return Response::error($this->validationErrors(), 422);
         }
 
         if (!$siteContent = file_get_contents($input['url'])) {
             throw new \Exception('Cant get content from url');
         }
 
-        $parser = Parser::build($input['parse_type'], $siteContent)->parse();
+        /** @var Parser $parser */
+        $parserBuilder = (new Parser())->setContent($siteContent);
+
+        $parser = $parserBuilder->build($input['parse_type']);
+
+        if ($parser instanceof TextParser) {
+            $parserBuilder->setSearchValue($input['value']);
+        }
+
+        $parser->parse();
 
         return Response::success(ParseSite::fillData([
             'data'       => $parser->getData(),
@@ -63,6 +65,6 @@ class SearcherController
      */
     public function show(int $id)
     {
-        return Response::success(ParseSite::findOrFail($id)->with('results')->first()->toArray());
+        return Response::success(ParseSite::whereId($id)->with('results')->get()->first()->toArray());
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Modules\Parser\Parsers;
+use App\Modules\Parser\Parser;
 
 /**
  * Class BaseParser
@@ -19,13 +20,18 @@ abstract class BaseParser
     protected $data = [];
 
     /**
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
      * BaseParser constructor.
      *
-     * @param string $content
+     * @param Parser $parser
      */
-    public function __construct(string $content)
+    public function __construct(Parser $parser)
     {
-        $this->content = $content;
+        $this->parser = $parser;
     }
 
     /**
