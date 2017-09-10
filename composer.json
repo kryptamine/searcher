@@ -1,0 +1,23 @@
+{
+    "name": "root/searcher",
+    "description": "Simple Searcher Module.",
+    "keywords": ["searcher", "timeweb"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=5.6.4",
+        "illuminate/database": "^5.5",
+        "vlucas/phpdotenv": "^2.4",
+        "vlucas/valitron": "^1.4"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
