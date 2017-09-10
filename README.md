@@ -28,8 +28,6 @@ server {
 
     access_log  /var/log/nginx/searcher.dev.access.log;
     error_log   /var/log/nginx/searcher.dev.error.log;
-    
-    include	cors;
 
     location / {
         #
@@ -49,9 +47,9 @@ server {
     }
 
     location ~ \.php$ {
-	fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-    include	  fastcgi_params;
-	fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+	    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        include	  fastcgi_params;
+	    fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
         try_files $uri =404;
     }
 
