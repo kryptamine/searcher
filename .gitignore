@@ -1,3 +1,4 @@
 /vendor
 /.idea
 /frontend/node_modules
+/app/.env
